@@ -2,39 +2,46 @@ package gg
 
 import "io"
 
-type istruct struct {
+type IStruct struct {
 	name  string
-	items *group
+	items *Group
 }
 
 // Struct will insert a new struct.
-func Struct(name string) *istruct {
-	return &istruct{
+func Struct(name string) *IStruct {
+	return &IStruct{
 		name: name,
 		// We will insert new line before closing the struct to avoid being affect
 		// by line comments.
-		items: newGroup("{", "\n}", "\n"),
+		items: newGroup("{\n", "\n}", "\n"),
 	}
 }
 
-func (i *istruct) render(w io.Writer) {
+func (i *IStruct) render(w io.Writer) {
 	writeStringF(w, "type %s struct", i.name)
 	i.items.render(w)
 }
 
 // AddLine will insert an empty line.
-func (i *istruct) AddLine() *istruct {
+func (i *IStruct) AddLine() *IStruct {
 	i.items.append(Line())
 	return i
 }
 
 // AddLineComment will insert a new line comment.
-func (i *istruct) AddLineComment(content string, args ...interface{}) *istruct {
+func (i *IStruct) AddLineComment(content string, args ...interface{}) *IStruct {
 	i.items.append(LineComment(content, args...))
 	return i
 }
 
-func (i *istruct) AddField(name, typ interface{}) *istruct {
+func (i *IStruct) AddField(name, typ interface{}) *IStruct {
 	i.items.append(field(name, typ, " "))
+	return i
+}
+
+func (i *IStruct) AddFieldWithTag(name, typ interface{}, tag string) *IStruct {
+	f := field(name, typ, " ")
+	f.withExtra(tag)
+	i.items.append(f)
 	return i
 }

@@ -18,6 +18,7 @@ type ifield struct {
 	typ       Node
 	value     Node
 	separator string
+	extra     string
 }
 
 func field(name, value interface{}, sep string) *ifield {
@@ -45,4 +46,11 @@ func (f *ifield) render(w io.Writer) {
 	}
 	writeString(w, f.separator)
 	f.value.render(w)
+	if f.extra != "" {
+		writeString(w, " ", f.extra)
+	}
+}
+
+func (f *ifield) withExtra(extra string) {
+	f.extra = extra
 }

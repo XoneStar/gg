@@ -4,7 +4,7 @@ import "io"
 
 type ivalue struct {
 	typ   string
-	items *group
+	items *Group
 }
 
 func Value(typ string) *ivalue {

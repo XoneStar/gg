@@ -5,9 +5,9 @@ import "io"
 type ifunction struct {
 	name       string
 	receiver   Node
-	parameters *group
-	results    *group
-	body       *group
+	parameters *Group
+	results    *Group
+	body       *Group
 	call       *icall
 }
 

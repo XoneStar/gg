@@ -3,10 +3,10 @@ package gg
 import "io"
 
 type iimport struct {
-	items *group
+	items *Group
 }
 
-// Import will start a new import group.
+// Import will start a new import Group.
 func Import() *iimport {
 	i := &iimport{
 		items: newGroup("(", ")", "\n"),
